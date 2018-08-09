@@ -5,7 +5,7 @@ class V(object):
 
     def __init__(self, value):
         self.color = None
-        self.d = None # distance from the source in dfs
+        self.d = None  # distance from the source in dfs
         self.f = None
         self.p = None
         self.val = value
@@ -16,38 +16,62 @@ class V(object):
         except AttributeError:
             return False
 
+    def __lt__(self, other):
+        return self.val < other.val
+
     def __hash__(self):
         return self.val.__hash__()
 
     def __repr__(self):
-        return "(v:%s, p:%s, d:%s, c:%s)" %\
-            (self.val, self.p.val if self.p is not None else 'none', self.d, self.color)
+        return "(v:%s, p:%s, d:%s, c:%s)" % \
+               (self.val, self.p.val if self.p is not None else 'none', self.d, self.color)
 
 
 class G(object):
 
     def __init__(self):
         self.adj = collections.defaultdict(lambda: [])
+        self.w = dict()
         self.v = []
 
-    def add(self, v1, v2=None, bi=True):
+    def key(self, v1, v2):
+        k = hash(v1) + hash(v2) % (10**9 + 7)
+        return k
+
+    def weight(self, v1, v2):
+        return self.w.get(self.key(v1, v2))
+
+    def add(self, v1, v2=None, w=None, bi=True):
         a1 = self.adj[v1]
 
         if v2 is not None:
             a2 = self.adj[v2]
             if v2 not in a1:
                 a1.append(v2)
+                k = self.key(v1, v2)
+                self.w[k] = w
+
             if v1 not in a2 and bi:
                 a2.append(v1)
+                k = self.key(v1, v2)
+                self.w[k] = w
+
             if v2 not in self.v:
                 self.v.append(v2)
         if v1 not in self.v:
             self.v.append(v1)
         return self
 
-    def li(self, v1, v2=None):
-        return self.add(v1, v2, bi=False)
+    def li(self, v1, v2=None, w=None):
+        return self.add(v1, v2, w=w, bi=False)
 
+    def T(self):
+        gt = G()
+        gt.v = self.v[:]
+        for k in self.adj.keys():
+            for z in self.adj[k]:
+                gt.li(z, k)
+        return gt
 
     def __repr__(self):
         g = "Graph vertices: %s\n" % [v.val for v in self.v]

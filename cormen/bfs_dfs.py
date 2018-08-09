@@ -25,16 +25,16 @@ time = 0
 
 
 def dfs(Z, start_with=None):
+    visit_function = dfs_visit_stack
     for v in Z.v:
         v.color = 'w'
         v.p = None
     if start_with is not None:
         i_st = Z.v.index(start_with)
-        dfs_visit(Z, Z.v[i_st])
-    print("Enter the secod cycle")
+        visit_function(Z, Z.v[i_st])
     for v in Z.v:
         if v.color == 'w':
-            dfs_visit(Z, v)
+            visit_function(Z, v)
 
 
 def dfs_visit(Z, s):
@@ -55,21 +55,31 @@ def dfs_visit(Z, s):
 
 def dfs_visit_stack(Z, s):
     """
-    TODO: todo to be done
+        this implementation suffers of the  inverse order of the discovery"
     """
     global time
-    ztack = []
-    ztack.append(s)
+    grey_stack = []
+    black_stack = []
+    grey_stack.append(s)
 
-    while ztack:
-        u = ztack.pop()
+    while grey_stack:
+        x = grey_stack.pop()
         time += 1
-        u.d = time
-        u.color = 'g'
-        for v in Z.adj[u]:
+        x.d = time
+        if x.color != 'g':
+            x.color = 'g'
+        for v in Z.adj[x]:
             if v.color == 'w':
-                v.color = 'g'
-                ztack.append(v)
+                v.p = x
+                grey_stack.append(v)
+        black_stack.append(x)
+
+    while black_stack:
+        x = black_stack.pop()
+        time += 1
+        x.f = time
+        if x.color != 'b':
+            x.color = 'b'
 
 
 def make_graph():
