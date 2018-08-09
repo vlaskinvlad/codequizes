@@ -33,6 +33,11 @@ class G(object):
         self.adj = collections.defaultdict(lambda: [])
         self.w = dict()
         self.v = []
+        
+    def edges(self):
+        for u in self.v:
+            for v in self.adj[u]:
+                yield (u, v, self.weight(u, v))
 
     def key(self, v1, v2):
         k = hash(v1) + hash(v2) % (10**9 + 7)
