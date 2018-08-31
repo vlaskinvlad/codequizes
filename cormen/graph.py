@@ -1,5 +1,5 @@
 import collections
-
+import graphviz as grv
 
 class V(object):
 
@@ -45,10 +45,26 @@ class G(object):
 
     def weight(self, v1, v2):
         return self.w.get(self.key(v1, v2))
+    
+    def adj_matrix(self):
+        """
+            Return Adjacency matric multiplication of a graph
+            The vertices are enumerated according the `self.v` list ordering
+        """
+        return [[self.weight(vi, vj)  for j,vj in enumerate(self.v)] for i, vi in enumerate(self.v)]
+    
+    def index_of(self, v):
+        return self.v.index(v)
+    
+    def get_v_by_key(self, key):
+        res = list(filter(lambda x: x.val == key, self.v))        
+        if res:
+            return res[0]
+        else:
+            return None
 
-    def add(self, v1, v2=None, w=None, bi=True):
+    def add(self, v1, v2=None, w=1, bi=True):
         a1 = self.adj[v1]
-
         if v2 is not None:
             a2 = self.adj[v2]
             if v2 not in a1:
@@ -67,7 +83,7 @@ class G(object):
             self.v.append(v1)
         return self
 
-    def li(self, v1, v2=None, w=None):
+    def li(self, v1, v2=None, w=1):
         return self.add(v1, v2, w=w, bi=False)
 
     def T(self):
@@ -77,6 +93,13 @@ class G(object):
             for z in self.adj[k]:
                 gt.li(z, k)
         return gt
+    
+    def as_graphiz(self, layout='circo'):
+        dg = grv.Graph()
+        dg.attr(layout=layout)
+        for (u, v, w) in self.edges():
+            dg.edge(str(u.val), str(v.val), label=str(w))
+        return dg
 
     def __repr__(self):
         g = "Graph vertices: %s\n" % [v.val for v in self.v]
