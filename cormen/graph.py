@@ -1,5 +1,6 @@
 import collections
 import graphviz as grv
+import networkx as nx
 
 class V(object):
 
@@ -100,6 +101,11 @@ class G(object):
         for (u, v, w) in self.edges():
             dg.edge(str(u.val), str(v.val), label=str(w))
         return dg
+    
+    def as_networkx(self):
+        g = nx.Graph()
+        g.add_edges_from([(u.val, v.val, {'weight': float(w)}) for u, v, w in self.edges()])
+        return g
 
     def __repr__(self):
         g = "Graph vertices: %s\n" % [v.val for v in self.v]
@@ -107,3 +113,5 @@ class G(object):
         for v in self.v:
             a += "key: %s, edges: %s\n" % (v.val, [k.val for k in self.adj[v]])
         return g + a
+    
+    
