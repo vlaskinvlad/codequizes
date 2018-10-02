@@ -1,0 +1,12 @@
+Requirement already satisfied: tensorflow in /opt/conda/lib/python3.6/site-packages
+Requirement already satisfied: wheel>=0.26 in /opt/conda/lib/python3.6/site-packages (from tensorflow)
+Requirement already satisfied: six>=1.10.0 in /opt/conda/lib/python3.6/site-packages (from tensorflow)
+Requirement already satisfied: absl-py>=0.1.6 in /opt/conda/lib/python3.6/site-packages (from tensorflow)
+Requirement already satisfied: protobuf>=3.4.0 in /opt/conda/lib/python3.6/site-packages (from tensorflow)
+Requirement already satisfied: tensorflow-tensorboard<1.6.0,>=1.5.0 in /opt/conda/lib/python3.6/site-packages (from tensorflow)
+Requirement already satisfied: numpy>=1.12.1 in /opt/conda/lib/python3.6/site-packages (from tensorflow)
+Requirement already satisfied: setuptools in /opt/conda/lib/python3.6/site-packages (from protobuf>=3.4.0->tensorflow)
+Requirement already satisfied: html5lib==0.9999999 in /opt/conda/lib/python3.6/site-packages (from tensorflow-tensorboard<1.6.0,>=1.5.0->tensorflow)
+Requirement already satisfied: markdown>=2.6.8 in /opt/conda/lib/python3.6/site-packages (from tensorflow-tensorboard<1.6.0,>=1.5.0->tensorflow)
+Requirement already satisfied: werkzeug>=0.11.10 in /opt/conda/lib/python3.6/site-packages (from tensorflow-tensorboard<1.6.0,>=1.5.0->tensorflow)
+Requirement already satisfied: bleach==1.5.0 in /opt/conda/lib/python3.6/site-packages (from tensorflow-tensorboard<1.6.0,>=1.5.0->tensorflow)
